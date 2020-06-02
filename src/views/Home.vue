@@ -1,18 +1,32 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input type="file" name="file-to-upload" class="inputFile" ref="files" @change="uploadFile" />
+    <!-- name="file-to-upload"
+    enctype="multipart/formdata"-->
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  name: "Home",
+  methods: {
+    uploadFile() {
+      const uploadFile = this.$refs.files.files[0];
+      const formData = new FormData();
+      formData.append("file-to-upload", formData);
+      console.log(formData);
+
+      this.$http
+        .post("http://127.0.0.1:3000/uploadFile", formData, {
+          headers: {
+            "Content-type": "multipart/formdata"
+          }
+        })
+        .then(res => {
+          console.log(res);
+        });
+    }
   }
-}
+};
 </script>
